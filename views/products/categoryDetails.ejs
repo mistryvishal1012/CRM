@@ -1,0 +1,83 @@
+<%- include ('../partials/header'); %>
+<title>Category Information</title>
+<link rel="stylesheet" type="text/css" href="/styles/information_card.css">
+<%- include ('../partials/navbar'); %>
+
+<h1 class="page_title pt-2">Category Information</h1>
+<div class="card_content">
+	<div class="block_info">
+		<p class="title">Category Name:</p>
+		<p class="info"><%= category.categorgy_name %> </p> 
+	</div>
+	<div class="row">
+		<div class="col">
+			 <div class="block_info">
+				<p class="title">Category Description:</p>
+				<p class="info"><%= category.category_description %></p> 
+			</div> 
+		</div>
+        <div class="col">
+            <div class="block_info">
+               <p class="title">Category Tax:</p>
+               <p class="info"><%= category.tax %></p> 
+           </div> 
+       </div>
+	</div>	
+
+    <div class="row">
+		<div class="col">
+			 <div class="block_info">
+                <% if (currentUser.user_permissions === "Administrator" || currentUser.user_permissions === "Manager") { %>		
+                    <form action="/products/category/<%= category._id %>/edit" method="GET">
+                        <button class="button zoom">Edit Product</button>	
+                    </form>
+                <%} %>	
+			</div> 
+		</div>
+	</div>
+
+    <div class="item_table my-1 table-responsive">
+    
+
+        <table class="displayUsers table table-striped" id="myTable" style="width: 100%;">
+            <thead>
+                <tr>
+                  <th>Product Name:</th>
+                    <th>Price:</th>
+                  <th>Inventory Quantity:</th>
+                  <th>Utils:</th>
+                </tr>
+            </thead>
+  
+            <tbody class="tableData">
+                
+                  <% products.forEach(function(product){ %>
+                        
+                          <tr>
+                              <td><%= product.product_name %></td>
+                              <td><%= product.price %></td>
+                              <td><%= product.inventory_quantity %></td>
+                              <td>
+                                  <button class="button"><a href="/products/product/<%= product._id %>" style="color: white;">Details</a></button>
+                              </td>
+                          </tr>
+  
+                    <% }) %>
+                
+            </tbody>
+  
+          </table>
+    </div>
+
+</div>		
+
+<%
+    function toSentenceCase(txt){
+        console.log(txt)
+        txt = txt.replace("_"," ")
+        console.log(txt)
+        console.log(txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    }
+%>
+<%- include ('../partials/footer'); %>

@@ -1,0 +1,96 @@
+<%- include ('../partials/header'); %>
+<title>Quotation</title>
+<link rel="stylesheet" type="text/css" href="/styles/information_card.css">
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+<%- include ('../partials/navbar'); %>
+    <h1 class="page_title pt-5">Quotation Information : <%= quotation.quotation_id %></h1>
+    <div class="row px-4">
+		<div class="col-xl-6">
+                <div class="card_content">
+                    <div class="row stripe_1 block_info">
+                        <div class="col-lg-6">
+                            <p class="title">Organization Name:</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <% if (quotation.company_name) { %>
+                                <p class="info"><%= quotation.company_name %></p> 
+                            <% } else { %>
+                                <p class="info"><%= quotation.last_name %>, <%= quotation.first_name %> <%= quotation.middle_name %></p> 
+                            <% } %> 
+                        </div>
+                    </div>
+                    <div class="row stripe_2 block_info">
+                        <div class="col-lg-6">
+                            <p class="title">Contact Name:</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="info"><%= quotation.first_name %> <%= quotation.middle_name %> <%= quotation.last_name %></p> 
+                        </div>
+                    </div>
+                    <div class="row stripe_1 block_info">
+                        <div class="col-lg-6">
+                            <p class="title">Email Address:</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="info"><%= quotation.username %></p>
+                        </div>
+                    </div>
+                    <div class="row stripe_2 block_info">
+                        <div class="col-lg-6">
+                            <p class="title">Phone Number:</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="info"><%= quotation.phone_number %></p> 
+                        </div>
+                    </div>
+                    <div class="row stripe_1 block_info">
+                        <div class="col-lg-6">
+                            <p class="title">Address:</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p><%= quotation.company_address.street %></p>
+                            <p><%= quotation.company_address.city %>, <%= quotation.company_address.state %> <%= quotation.company_address.zip %></p>
+                        </div>
+                    </div>
+                    <div class="row stripe_2 block_info">
+                        <div class="col-lg-6">
+                            <p class="title">Company Email Address:</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="info"><%= quotation.comapny_emailAddress %></p> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="col-xl-6">
+
+                    <div class="card_content">
+                        <h3>Products:</h3>
+                        <table class="displayUsers stripe" id="myTable">
+                              <thead>
+                                  <tr>
+                                    <th>Product Name:</th>
+                                    <th>Product Quantity:</th>								
+                                  </tr>
+                              </thead>
+        
+                              <tbody class="tableData">
+        
+                                    <% quotation["selectedproduct"].forEach(function(product){ %>
+        
+                                            <tr>
+                                                <td><%= product.name %></a></td>
+                                                <td><%= product.quantity %></td>
+                                            </tr>
+        
+                                    <% }) %>
+        
+                              </tbody>
+                        </table>
+                    </div>	
+                </div>        
+                
+            </div>
+
+<%- include ('../partials/footer'); %>

@@ -1,0 +1,28 @@
+<%- include ('../partials/header'); %>
+<link rel="stylesheet" type="text/css" href="/styles/login.css">
+<title>Quotation</title>
+<%- include ('../partials/loginNavbar'); %>
+<div class="top_margin">
+
+ 
+
+    <div class="container py-5" style="margin-top: 7%;height: 35vh;">
+      <form action="/quotation/getQuotation" method="POST">
+        <div class="form-group">
+          <input autocomplete="off" autofocus class="form-control" name="dealer[username]" placeholder="Email Address" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" class="form-control" name="dealer[company_name]" placeholder="Company Name" type="text" required>
+          </div>
+        <div class="form-group">
+          <input class="form-control" name="dealer[quotation_number]" placeholder="Quotataion Number" type="number" required>
+        </div>
+        <button class="button zoom my-3" type="submit">Get Details</button>
+      </form>
+    </div>		
+</div>
+
+
+
+<%- include ('../partials/footer'); %>
+<%- include ('../partials/footerMain'); %>

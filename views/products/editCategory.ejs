@@ -1,0 +1,36 @@
+<%- include ('../partials/header'); %>
+<title>Edit Category</title>
+<%- include ('../partials/navbar'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+
+
+    <div class="container">
+      <h2 class="py-2 page_title">Edit Category:</h2>
+      <form action="/products/category/<%= category._id %>/edit?_method=PUT" method="POST">
+        <div class="form-group">
+          <label><h6>Category Name:</h6></label>
+          <input autocomplete="off" autofocus class="form-control" name="category[categorgy_name]" value="<%= category.categorgy_name %>" placeholder="Product Name" type="text" required>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 form-group">
+                <p>Category Description:</p>
+            </div>
+            <div class="col-lg-4 form-group">
+                <textarea class="form-control" name="category[category_description]" placeholder="Product Description" required><%= category.category_description %></textarea>
+            </div>
+            <div class="col-lg-2 form-group">
+                <p>Category Tax:</p>
+            </div>
+            <div class="col-lg-4 form-group">
+                <input autocomplete="off" autofocus class="form-control" name="category[tax]" value="<%= category.tax %>" placeholder="Product Release Date" type="text" required>
+            </div>
+        </div>
+        <button class="button zoom my-3" type="submit">Submit</button>
+      </form>
+      </div>
+		
+</div>
+
+
+
+<%- include ('../partials/footer'); %>

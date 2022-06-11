@@ -1,0 +1,63 @@
+<%- include ('../partials/header'); %>
+<title>Tickets</title>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+<%- include ('../partials/navbar'); %>
+
+  <h1 class="page_title pt-2">Tickets</h1>
+
+  <div class="util-btn my-2">
+    <a href="/tickets/add" class="button">Create New Ticket</a>
+  </div>
+
+  <div class="item_table my_5 table-responsive">
+    
+      <table class="displayUsers table table-striped" id="myTable">
+          <thead>
+              <tr>
+                <th>Ticket Name:</th>
+				<th>Ticket Status:</th>
+                <th>Date Added:</th>
+				<th>Due date:</th>
+                <th>Date Completed:</th>
+				<th>Utils:</th>
+              </tr>
+          </thead>
+
+          <tbody class="tableData">
+			  
+			  <% tickets.forEach(function(ticket){ %>
+
+				<tr>
+					<td><%= ticket.ticket_name %></td>
+					<% if (Date.now() < ticket.due_date && !ticket.completed_date) { %>
+						<td class="ticket_status"><i class="fas fa-exclamation-triangle"></i> Not Yet Completed</td>
+					<% } %>
+					<% if (Date.now() > ticket.due_date && !ticket.completed_date) { %>
+						<td class="organization_name"><i class="fas fa-exclamation-circle"></i> Past Due</td>
+					<% } %>
+					<% if (ticket.completed_date) { %>
+						<td class="organization_name"><i class="fas fa-check"></i> Completed</td>
+					<% } %>	
+						<td class="date_added"><%= ticket.date_added.toDateString() %></td>
+					<% if (ticket.due_date) { %>
+						<td class="due_date"><%= ticket.due_date.toDateString() %></td>
+					<% } %>	
+					<% if (ticket.completed_date) { %>
+						<td class="completed_date"><%= ticket.completed_date.toDateString() %></td>
+					<% } else { %>	
+					<td></td>
+					<% } %>
+					<td>
+						<button class="button"><a href="/tickets/<%= ticket._id %>" style="color: white;">Details</a></button>
+					  </td>
+				</tr>
+			  
+			  <% }) %>
+
+          </tbody>
+
+        </table>
+  </div>
+
+
+<%- include ('../partials/footer'); %>

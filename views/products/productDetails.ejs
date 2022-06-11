@@ -1,0 +1,77 @@
+<%- include ('../partials/header'); %>
+<title>Product Information</title>
+<link rel="stylesheet" type="text/css" href="/styles/information_card.css">
+<%- include ('../partials/navbar'); %>
+
+<h1 class="page_title pt-2">Product Information</h1>
+<div class="card_content">
+	<div class="block_info">
+		<p class="title">Product Name:</p>
+		<p class="info"><%= product.product_name %> </p> 
+	</div>
+	<div class="row">
+		<div class="col">
+			 <div class="block_info">
+				<p class="title">Product Price:</p>
+				<p class="info"><%= product.price %></p> 
+			</div> 
+		</div>
+        <div class="col">
+            <div class="block_info">
+               <p class="title">Product Total Quantity:</p>
+               <p class="info"><%= product.total_quantity %></p> 
+           </div> 
+       </div>
+       <div class="col">
+        <div class="block_info">
+           <p class="title">Product Inventory Quantity:</p>
+           <p class="info"><%= product.inventory_quantity %></p> 
+       </div> 
+   </div>
+	</div>			
+	<div class="row">
+        <%
+            Object.keys(product.product_description).forEach(function(propd){ %>
+                <div class="col-md-6">
+                    <div class="block_info">		 
+                        <p class="title"><%- toSentenceCase(propd) %></p>
+                        <p class="info"><%- product.product_description[propd] %></p> 
+                    </div>
+                </div>
+            <% });
+        %>
+	</div>
+    <div class="row">
+        <%
+
+            var categoryDescription = ["categorgy_name","category_description","tax"]
+            categoryDescription.forEach(function(propd){ %>
+                <div class="col-md-6">
+                    <div class="block_info">		 
+                        <p class="title"><%- toSentenceCase(propd) %></p>
+                        <p class="info"><%- product.category[propd] %></p> 
+                    </div>
+                </div>
+            <% });
+        %>
+	</div>
+    <% if (currentUser.user_permissions === "Administrator" || currentUser.user_permissions === "Manager") { %>		
+        <form action="/products/product/<%= product._id %>/edit" method="GET">
+            <button class="btn btn-primary zoom m-2">Edit Product</button>	
+        </form>
+        <form action="/products/product/<%= product._id %>/delete?_method=DELETE" method="POST">
+            <button class="btn btn-danger zoom m-2">Delete Product</button>	
+        </form>
+    <%} %>	
+</div>
+
+<%
+    function toSentenceCase(txt){
+        console.log(txt)
+        txt = txt.replace("_"," ")
+        console.log(txt)
+        console.log(txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    }
+%>
+<%- include ('../partials/footer'); %>

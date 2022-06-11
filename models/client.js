@@ -1,0 +1,41 @@
+const Transaction = require ("./transaction"),
+User 			  = require ("./user"),
+Ticket 	  		  = require ("./ticket"),
+Job 	   		  = require ("./job"),
+Client 			  = require ("./client"),
+	  
+mongoose          = require("mongoose");
+
+// =======================Client Schema
+
+var clientSchema = new mongoose.Schema({
+	client_type : {
+		type : String,
+		enum : ["Client","Vendor"]
+	},
+	organization_name: String,
+	first_name: String,
+	middle_name: String,
+	last_name: String,
+	email_address: String,
+	phone_number: String,
+	street: String,
+	city: String,
+	state: String,
+	zip: String,
+	description: String,
+	active: {type: Boolean, deafult: true},
+	date_added: {type: Date},
+	created_by: {type: mongoose.Schema.Types.ObjectID, ref: "User"},
+	transactions: [{type: mongoose.Schema.Types.ObjectID, ref: "Transaction"}],
+	jobs: [{type: mongoose.Schema.Types.ObjectID, ref: "Job"}],
+	clientKYC : {
+		type : Boolean,
+		default : false
+	},
+	KYCLink : {
+		type: mongoose.Schema.Types.ObjectID, ref: 'Detail'
+	}
+});
+
+module.exports = mongoose.model("Client", clientSchema);

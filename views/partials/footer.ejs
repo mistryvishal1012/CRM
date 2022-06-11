@@ -1,0 +1,45 @@
+		</div>
+
+<script src="/scripts/dropdown_search.js"></script>	
+<script src="/scripts/barcharts.js"></script>
+<script src="/scripts/confirm_password.js"></script>
+<script src="/public/scripts/table.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+	var title = <%- JSON.stringify(title) %>
+	var currentPage = document.getElementById(`${title}`);
+	currentPage.className = "nav-link current-link"
+</script>
+<script>
+	var error = <%- JSON.stringify(error) %>;
+	var success = <%- JSON.stringify(success) %>;
+	var info = <%- JSON.stringify(info) %>;
+	if(error && error.length > 0){
+		var errorDocument = document.getElementById('errorContainer');
+		setTimeout(() => {
+			console.log(errorDocument.innerText)
+			errorDocument.style.display = "none"
+		}, 2000);
+	}
+
+	if(success && success.length > 0){
+		var successDocument = document.getElementById('successContainer');
+		setTimeout(() => {
+			console.log(successDocument.innerText)
+			successDocument.style.display = "none"
+		}, 2000);
+	}
+
+	if(info && info.lenght > 0){
+		var infoDocument = document.getElementById('infoContainer');
+		setTimeout(() => {
+			console.log(infoDocument.innerText)
+			infoDocument.style.display = "none"
+		}, 2000);
+	}
+</script>
+	</body>
+</html>

@@ -1,0 +1,47 @@
+p {
+	margin: 0;
+}
+
+.title {
+	font-weight: bold;
+}
+
+.card_content {
+  max-height: 100%;
+  padding: 25px;
+  margin: auto;
+  color: black;
+  width: 90%;
+  position: relative;
+  font-size: 1.2em;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.block_info {
+	padding: 1.5rem;
+}
+
+.card_content form {
+	display: inline;
+}
+
+.stripe_1 {
+  background-color: white;
+}
+
+.stripe_2 {
+  background-color: rgb(212, 212, 212);
+}
+
+.button {
+  font-size: 1rem;
+  color: white;
+  background-color:rgba(6, 16, 34, 1);
+  padding: 10px;
+  border: 1px solid white;
+  border-radius: 10px;
+  display: inline-block;
+  text-decoration: none;
+}

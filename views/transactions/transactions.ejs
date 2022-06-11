@@ -1,0 +1,68 @@
+<%- include ('../partials/header'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+<title>Transactions</title>
+<%- include ('../partials/navbar'); %>
+
+
+  <h1 class="page_title pt-2">Transactions</h1>
+
+  <div class="util-btn my-2">
+		<a href="/transactions/addExport" class="button">Add New Export Transaction</a>
+		<a href="/transactions/addImport" class="button">Add New Import Transaction</a>
+  </div>
+
+  <div class="item_table my_5 table-responsive">
+    
+      <table class="displayUsers table table-striped"  id="myTable">
+          <thead>
+              <tr>
+				<th>Deposited Date:</th>
+                <th>Client Name:</th>
+                <th>Associated Job:</th>                
+				<th>Date Added:</th>
+				<th>Transaction Amount:</th>
+				<th>Utils:</th>
+              </tr>
+          </thead>
+
+          <tbody class="tableData">
+			  
+				<% transactions.forEach(function(transaction){ %>
+				  	
+						<tr>
+							<td><%= transaction["transaction_info"]["date"].toDateString() %></td>
+							<% if (transaction["client"]) { %>
+								<% if (transaction["client"].organization_name) { %>
+									<td><%= transaction["client"].organization_name %></td>
+								<% } else { %>
+									<td>
+										<%= transaction["client"].last_name %>, 
+										<% if (transaction["client"].middle_name) { %>
+										<%= transaction["client"].middle_name %> 
+										<% } %>
+										<%= transaction["client"].first_name %> 
+									</td>
+								<% } %>	
+							<% } else { %>
+								<td>[deleted]</td>
+							<% } %>	
+							<% if (transaction["job"]) { %>
+								<td><%= transaction["job"].job_name %></td>
+							<% } else { %>
+								<td>[deleted]</td>
+							<% } %>	
+							<td><%= transaction.date_added.toDateString() %></td>
+							<td>₹<%= transaction["transaction_info"]["new_amount"] %></td>
+							<td>
+								<button class="button"><a href="/transactions/<%= transaction._id %>" style="color: white;">Details</a></button>
+							  </td>
+						</tr>
+
+			  	<% }) %>
+			  
+          </tbody>
+
+        </table>
+  </div>
+
+<%- include ('../partials/footer'); %>

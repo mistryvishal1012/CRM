@@ -1,0 +1,32 @@
+<%- include ('../partials/header'); %>
+<title>Add Activity</title>
+<%- include ('../partials/navbar'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+	
+	<div>
+            <div class="container">
+                <h2 class="py-2 page_title">Add Activity:</h2>
+                <form action="/activity/" method="POST">
+					<div class="form-group">
+                        <select class="form-control dropdown_search" name="activity[activity_type]" required>
+                            <option value="">Activity Type</option>
+                            <option value="Meeting">Meeting</option>
+                            <option value="Call">Call</option>
+                            <option value="Task">Task</option>
+                    </select>
+                    </div>	
+                    <div class="form-group">
+						<p>Note For Activity:</p>
+                        <textarea name="activity[extra_notes]" required></textarea>
+                    </div>				
+                    <div class="form-group">
+                        <p>Activity Date:</p>
+						<input type="date" class="form-control" name="activity[activity_date]" placeholder="Activity Date" required>
+                    </div>
+                    <button class="button zoom" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+
+<%- include ('../partials/footer'); %>

@@ -1,0 +1,30 @@
+<%- include ('../partials/header'); %>
+<title>Add Category</title>
+<%- include ('../partials/navbar'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+
+
+    <div class="container">
+        <h2 class="py-2 page_title">Add Category:</h2>
+      <form action="/products/addCategory" method="POST">
+        <div class="form-group">
+          <label><h6>Category Name:</h6></label>
+          <input autocomplete="off" autofocus class="form-control" name="category[categorgy_name]" placeholder="Category Name" type="text" required>
+        </div>
+        <div class="form-group">
+            <label><h6>Category Description:</h6></label>
+            <textarea name="category[category_description]" placeholder="Category Description"></textarea>
+        </div>
+        <div class="form-group">
+            <label><h6>Category Tax:</h6></label>
+            <input autocomplete="off" autofocus class="form-control" name="category[tax]" placeholder="Tax" type="number" min="5" max="17" required>
+          </div>
+        <button class="button zoom my-3" type="submit">Submit</button>
+      </form>
+      </div>
+		
+</div>
+
+
+
+<%- include ('../partials/footer'); %>

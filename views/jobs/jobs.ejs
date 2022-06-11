@@ -1,0 +1,58 @@
+<%- include ('../partials/header'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+<title>Orders</title>
+<%- include ('../partials/navbar'); %>
+
+
+  <h1 class="page_title pt-2">Orders</h1>
+
+  <div class="util-btn my-2">
+    <a href="/jobs/addImportJob" class="button">Add New Import Order</a>
+    <a href="/jobs/addExportJob" class="button">Add New Export Order</a>
+  </div>
+
+  <div class="item_table my_5 table-responsive">
+    
+      <table class="displayUsers stripe table table-striped">
+          <thead>
+              <tr>
+                <th>Order Name:</th>
+                <th>Order Type:</th>
+                <th>Start Date:</th>
+                <th>End Date:</th>
+				        <th>Associated Client:</th>
+                <th>Utils:</th>
+              </tr>
+          </thead>
+
+          <tbody class="tableData">
+			  
+				<% jobs.forEach(function(job){ %>
+				  	
+						<tr>
+							<td><%= job.job_name %></td>
+              <td><%= job.job_type %></td>
+							<td><%= job.start_date.toDateString() %></td>
+							<td><%= job.end_date.toDateString() %></td>
+							<% if (job["client"]) { %>
+								<% if (job["client"].organization_name) { %>
+								<td><%= job["client"].organization_name %></td>
+								<% } else { %>
+								<td><%= job["client"].last_name, %> <%= job["client"].last_name %>, <%= job["client"].middle_name, %></td>
+								<% } %>
+							<% } else { %>
+								<td>[deleted]</td>
+							<% } %>
+              <td>
+                <button class="button"><a href="/jobs/<%= job._id %>" style="color: white;">Details</a></button>
+              </td>
+						</tr>
+
+			  	<% }) %>
+			  
+          </tbody>
+
+        </table>
+  </div>
+
+<%- include ('../partials/footer'); %>

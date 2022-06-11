@@ -1,0 +1,135 @@
+<%- include ('../partials/header'); %>
+<title>Complete Lead Activity</title>
+<%- include ('../partials/navbar'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+	
+	<div>
+            <div class="container">
+                <h2 class="py-2 page_title">Complete Activity: </h2>
+                <form action="/leads/<%= lead.id %>/activity/<%= activity._id %>/compelted?_method=PUT" method="POST">			
+                    <div class="row">
+                        <div class="col-lg-4 form-group">
+                            <p class="title">Name:</p>
+			                <p class="info"><%= lead.first_name %> <%= lead.middle_name %> <%= lead.last_name %></p> 
+		                </div>
+                        <div class="col-lg-4 form-group">
+                            <p class="title">Lead Email ID:</p>
+			                <p class="info"><%= lead.username %></p>
+                        </div>
+                        <div class="col-lg-4 form-group">
+                            <p class="title">Lead Phone Number:</p>
+			                <p class="info"><%= lead.phone_number %></p>
+                        </div>	
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 form-group">
+                            <p class="title">Company Name:</p>
+			                <p class="info"><%= lead.company_name %></p> 
+		                </div>
+                        <div class="col-lg-4 form-group">
+                            <p class="title">Company Email ID:</p>
+			                <p class="info"><%= lead.comapny_emailAddress %></p>
+                        </div>
+                        <div class="col-lg-4 form-group">
+                            <p class="title">Company Website:</p>
+			                <p class="info"><%= lead.company_website %></p>
+                        </div>	
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 form-group">
+                        <p>Assign to User:</p>
+                        <select class="form-control dropdown_search" name="lead[assigned_to]" value="<%= lead.assigned_to %>" disabled required>
+                            <%
+                                var options = users;
+                                for ( var i = 0; i < options.length; i++ )
+                                {
+                                    var selected = ( lead.assigned_to === options[i].username ) ? "selected" : "";
+                                    %><option value="<%=options[ i ] %>" <%=selected %>><%=options[i].username %></option><%
+                                }
+                            %>
+                        </select>
+                     </div>
+                     <div class="col-lg-4 form-group">
+                        <p>Created by User:</p>
+                        <select class="form-control dropdown_search" name="lead[assigned_to]" value="<%= lead.assigned_to %>" disabled required>
+                            <%
+                                var options = users;
+                                for ( var i = 0; i < options.length; i++ )
+                                {
+                                    var selected = ( lead.created_by === options[i].username ) ? "selected" : "";
+                                    %><option value="<%=options[ i ] %>" <%=selected %>><%=options[i].username %></option><%
+                                }
+                            %>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 form-group">
+                            <p class="title">Company Name:</p>
+			                <p class="info"><%= lead.company_name %></p> 
+		                </div>
+                        <div class="col-lg-4 form-group">
+                            <p class="title">Company Email ID:</p>
+			                <p class="info"><%= lead.comapny_emailAddress %></p>
+                        </div>
+                        <div class="col-lg-4 form-group">
+                            <p class="title">Company Website:</p>
+			                <p class="info"><%= lead.company_website %></p>
+                        </div>	
+                    </div>
+                    <div class="form-group">
+                        <p>Notes:</p>
+                        <textarea name="lead[notes]" value="<%= lead.notes %>" readonly required><%= lead.notes %></textarea>
+                    </div> 	 
+                    <div class="form-group">
+                        <p>Activity:</p>
+                        <select class="form-control dropdown_search" name="activity[activity_type]" value="<%= activity.activity_type %>" required>
+                            <%
+                                    var options = [ "Meeting", "Call" ];
+                                    for ( var i = 0; i < options.length; i++ )
+                                    {
+                                        var selected = ( activity.activity_type === options[i] ) ? "selected" : "";
+                                        %><option value="<%=options[ i ] %>" <%=selected %>><%=options[i] %></option><%
+                                    }
+                            %>
+                    </select>
+                    </div>	
+                    <div class="form-group">
+                        <p>Note For Activity:</p>
+                        <textarea name="activity[extra_notes]" required><%= activity.extra_notes %></textarea>
+                    </div>
+                    <div class="form-group">
+                        <p>Created By:</p>
+                        <input readonly autocomplete="off" autofocus class="form-control"  value="<%=  activity.created_by.username %>" type="text" required>
+                    </div> 				
+                    <div class="form-group">
+                        <p>Activity Date:</p>
+                        <input type="date" class="form-control" name="activity[activity_date]" value="<%=  formatDate(activity.activity_date) %>" placeholder="Activity Date" required>
+                    </div>
+                    <div class="form-group">
+                        <p>Completeion Notes:</p>
+                        <textarea name="activity[completion_activity]" required></textarea>
+                    </div>    
+                
+                    <button class="button zoom" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+
+<%- include ('../partials/footer'); %>
+
+
+<% function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+} %>

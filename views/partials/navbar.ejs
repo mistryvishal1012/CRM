@@ -1,0 +1,108 @@
+	<div>
+          <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-2">
+            <div class="container-fluid">
+              <div id="sidebartoggle">
+                <button id="sidebarCollapse" type="button" ><span class="navbar-toggler-icon" id="sidebarButton"></span></button>
+              </div>
+              <div class="software_name">
+                    <div class="media d-flex align-items-center">
+                      <div class="media-body">
+                        <h4 class="m-0">Jerry Enterprise</h4>
+                      </div>
+                    </div>
+              </div>
+            </div>
+          </nav>
+  </div>
+                
+        <div class="text-white vertical-nav active" id="sidebar" style="margin-top: -12px;">
+        
+          <ul class="nav flex-column mb-0 navbar-nav" >
+            <% if (currentUser.user_permissions === "Administrator") { %>
+                      <li class="nav-item zoom">
+                        <a  class="nav-link" href="/users" id="users">Users</a>
+                      </li>
+                      <li class="nav-item zoom">
+                        <a  class="nav-link" href="/clientkyc" id="clientkyc">KYC</a>
+                      </li>
+              <% } %>
+              <% if (currentUser.user_permissions === "Manager" || currentUser.user_permissions === "Administrator") { %>
+              <li class="nav-item zoom">
+                <a href="/leads" class="nav-link" id="leads">
+                  Leads
+                </a>
+              </li>
+              <li class="nav-item zoom">
+                <a href="/quotation" class="nav-link" id="quotation">
+                  Quotation
+                </a>
+              </li>
+              <% } %>
+              <li class="nav-item zoom">
+                <a class="nav-link" href="/" id="dashboard">Dashboard</a>
+              </li>
+            <li class="nav-item zoom">
+              <a href="/tickets" class="nav-link" id="tickets">
+                Tickets
+              </a>
+            </li>
+            <li class="nav-item zoom">
+              <a href="/vendors" class="nav-link" id="vendors">
+                Vendors
+              </a>
+            </li>
+            <li class="nav-item zoom">
+              <a href="/clients" class="nav-link" id="clients">
+                Clients
+              </a>
+            </li>
+            <li class="nav-item zoom">
+              <a href="/jobs" class="nav-link" id="jobs">
+                Orders
+              </a>
+            </li>
+            <li class="nav-item zoom">
+              <a href="/transactions" class="nav-link" id="transactions">
+                Tansactions
+              </a>
+            </li>
+            <li class="nav-item zoom">
+              <a href="/activity" class="nav-link" id="activitys">
+                Activity
+              </a>
+            </li>
+            <li class="nav-item zoom">
+              <a href="/products" class="nav-link" id="products">
+                Product
+              </a>
+            </li>
+            <li class="nav-item zoom">
+              <a class="nav-link" href="/user/me" id="user">My Account</a>
+            </li>
+            <li class="nav-item zoom">
+              <a class="nav-link" href="/logout">Logout</a>
+            </li>
+          </ul>  
+        </div>
+
+<div class="page-content active" id="content">
+
+  <!-- Flash Messages -->
+  <% if (error && error.length > 0) { %>
+    <div class="container" id="errorContainer">
+      <div class="alert alert-danger" id="error"><%= error %></div>
+    </div>
+  <% } %>
+  <% if (success && success.length > 0) { %>
+    <div class="container" id="successContainer">
+      <div class="alert alert-success" id="success"><%= success %></div>
+    </div>
+  <% } %> 
+  <% if (info && info.length > 0) { %>
+    <div class="container" id="infoContainer">
+      <div class="alert alert-warning" id="info"><%= info %></div>
+    </div>
+  <% } %> 
+      
+
+

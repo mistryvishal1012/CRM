@@ -1,0 +1,60 @@
+<%- include ('../partials/header'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+<title>Client's KYC</title>
+<%- include ('../partials/navbar'); %>
+
+
+  <h1 class="page_title pt-2">Clients</h1>
+
+  <div class="util-btn my-2">
+    <a href="/clients/add" class="button">Add New Client</a>
+  </div>
+
+  <div class="item_table my_5 table-responsive">
+    
+	  
+      <table class="displayClients table table-striped" id="myTable">
+          <thead>
+              <tr>
+                <th>Organization/Client Last Name:</th>
+                <th>Contact Name:</th>
+                <th>KYC:</th>
+				<th>Utils:</th>
+              </tr>
+          </thead>
+
+          <tbody class="tableData">
+			  
+				<% clients.forEach(function(client){ %>
+						<tr>
+							<% if (client.organization_name) { %>
+							<td><%= client.organization_name %></td>
+								<% if (client.last_name) { %>
+									<td><%= client.last_name %> <%= client.first_name %> <%= client.middle_name %></td>
+								<% } else { %>	
+									<td></td>
+								<% } %>	
+							<% } else { %>
+							<td><a href="/clients/<%= client._id %>"><%= client.last_name %></a></td>
+							<td><%= client.last_name %>, <%= client.first_name %> <%= client.middle_name %></td>
+							<% } %>
+							<td>
+								<% if (client.clientKYC === false) { %>
+									Pending
+								<% } else { %>
+									Done
+								<% } %>	
+							</td>	
+							<td>
+								<button class="button"><a href="/clientkyc/<%= client._id %>" style="color: white;">Edit</a></button>
+							</td>								
+						</tr>
+
+			  	<% }) %>
+			  
+          </tbody>
+
+        </table>
+  </div>
+
+<%- include ('../partials/footer'); %>

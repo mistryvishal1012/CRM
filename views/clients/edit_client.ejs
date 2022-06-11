@@ -1,0 +1,91 @@
+<%- include ('../partials/header'); %>
+<title>Edit Client</title>
+<%- include ('../partials/navbar'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+
+	
+	<div>
+            <div class="container">
+                <h2 class="py-2 page_title">Edit Client:
+				<% if (client_info.organization_name) { %>
+				<%= client_info.organization_name %>
+				<% } else { %>
+					<%= client_info.first_name %> <%= client_info.middle_name %> <%= client_info.last_name %>
+				<% } %> 				
+				</h2>
+                <form action="/clients/<%= client_info._id %>?_method=PUT" method="POST">
+					<div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="client[organization_name]" placeholder="Organization Name" value="<%= client_info.organization_name %>" placeholder="Organization Name" type="text" required>
+                    </div>   
+					<div class="row">
+						<div class="col-lg-4 form-group">
+							<input autocomplete="off" autofocus class="form-control" name="client[first_name]" value="<%= client_info.first_name %>" placeholder="First Name" type="text" required>
+						</div>
+						<div class="col-lg-4 form-group">
+							<input autocomplete="off" autofocus class="form-control" name="client[middle_name]" value="<%= client_info.middle_name %>" placeholder="Middle Name" type="text" required>
+						</div>
+						<div class="col-lg-4 form-group">
+							<input autocomplete="off" autofocus class="form-control" name="client[last_name]" value="<%= client_info.last_name %>" placeholder="Last Name" type="text" required>
+						</div>
+					</div> 					
+                    <div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="client[email_address]" value="<%= client_info.email_address %>" placeholder="Email Address" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                    </div>
+                    <div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="client[phone_number]" value="<%= client_info.phone_number %>" placeholder="Phone Number" type="text" required>
+                    </div> 
+                    <div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="client[street]" value="<%= client_info.street %>" placeholder="Street" type="text" required>
+                    </div>    	
+					<div class="row">
+						<div class="col-lg-4 form-group">
+							<select class="form-control dropdown_search" name="client[city]" required>
+								<%
+								var options = [ "Navsari","Surat" ];
+								for ( var i = 0; i < options.length; i++ )
+								{
+									var selected = ( client_info.city === options[i] ) ? "selected" : "";
+									%><option value="<%=options[ i ] %>" <%=selected %>><%=options[i] %></option><%
+								}
+								%>	
+						</select>
+						</div>
+						<div class="col-lg-4 form-group">
+							<select class="form-control dropdown_search" name="client[state]" required>
+								<%
+								var options = [ "Gujarat" ];
+								for ( var i = 0; i < options.length; i++ )
+								{
+									var selected = ( client_info.state === options[i] ) ? "selected" : "";
+									%><option value="<%=options[ i ] %>" <%=selected %>><%=options[i] %></option><%
+								}
+						%>
+							</select>
+						</div>
+						<div class="col-lg-4 form-group">
+							<input autocomplete="off" autofocus class="form-control" name="client[zip]" value="<%= client_info.zip %>" placeholder="Zip" type="text" required>
+						</div>
+					</div>	
+                    <div class="row">
+						<div class="col-lg-6 form-group">
+							<p>Client Description:</p>
+							<textarea name="client[description]" required><%= client_info.description %></textarea>
+						</div>
+						<div class="col-lg-6 form-group">
+							<p>Is Active:</p>
+							<select class="form-control" name="client[active]" required>
+								<option value="<%= client_info.active %>"><%= client_info.active %></option>
+								<option value="true">true</option>
+								<option value="false">false</option>
+							</select>
+						</div>
+						
+                    </div> 					
+
+                    <button class="button zoom" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+
+<%- include ('../partials/footer'); %>

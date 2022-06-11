@@ -1,0 +1,68 @@
+<%- include ('../partials/header'); %>
+<title>Add User</title>
+<%- include ('../partials/navbar'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+
+            <div class="container">
+                <h2 class="py-2 page_title">Add User:</h2>
+                <form onsubmit="return confirmPassword(event);" action="/users" method="POST">
+					<div class="row">
+						<div class="col-lg-4 form-group">
+							<input autocomplete="off" autofocus class="form-control" name="user[first_name]" placeholder="First Name" type="text" required>
+						</div>
+						<div class="col-lg-4 form-group">
+							<input autocomplete="off" autofocus class="form-control" name="user[middle_name]" placeholder="Middle Name" type="text" required>
+						</div>
+						<div class="col-lg-4 form-group">
+							<input autocomplete="off" autofocus class="form-control" name="user[last_name]" placeholder="Last Name" type="text" required>
+						</div>
+					</div>
+                    <div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="user[username]" placeholder="Username" type="text" required>
+                    </div>    					
+                    <div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="user[email_address]" placeholder="Email Address" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                    </div>
+                    <div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="user[phone_number]" placeholder="Phone Number" type="tel" required>
+                    </div> 
+                    <div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="user[street]" placeholder="Street" type="text" required>
+                    </div>    	
+					<div class="row">
+						<div class="col-lg-4 form-group">
+							<select class="form-control dropdown_search" name="user[city]" required>
+								<option value="">City</option><option value="Navsari">Navsari</option><option value="Surat">Surat</option>
+						</select>
+						</div>
+						<div class="col-lg-4 form-group">
+							<select class="form-control dropdown_search" name="user[state]" required>
+									<option value="">State</option><option value="Gujarat">Gujarat</option>
+							</select>
+						</div>
+						<div class="col-lg-4 form-group">
+							<input autocomplete="off" autofocus class="form-control" name="user[zip]" placeholder="Zip" type="text" required>
+						</div>
+					</div>		
+					<div class="row">
+	                <div class="form-group col-lg-6">
+                        <input autocomplete="off" id="password" class="form-control" name="user[password]" placeholder="Password" type="password" required>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <input autocomplete="off" id="confirm_password" class="form-control" name="user[confirm_password]" placeholder="Confirm Password" type="password" required>
+                    </div>					
+					</div>
+
+					<div class="form-group">
+						<p>User Permissions:</p>
+						<select class="form-control" name="user[user_permissions]" required>
+							  <option value="Administrator">Administrator</option>
+							  <option value="Manager">Manager</option>
+							  <option value="User">User</option>
+						</select>
+                    </div>
+                    <button class="button zoom" type="submit">Submit</button>
+                </form>
+			</div>
+
+<%- include ('../partials/footer'); %>

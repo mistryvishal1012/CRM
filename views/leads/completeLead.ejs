@@ -1,0 +1,109 @@
+<%- include ('../partials/header'); %>
+<title>Complete Lead</title>
+<%- include ('../partials/navbar'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+	
+	<div>
+            <div class="container">
+                <h2 class="py-2 page_title">Complete Lead: </h2>
+                <form action="/leads/<%= lead.id %>/compelted?_method=PUT" method="POST">			
+                    <div class="row">
+                        <div class="col-lg-4 form-group">
+                            <p class="title">Name:</p>
+			                <p class="info"><%= lead.first_name %> <%= lead.middle_name %> <%= lead.last_name %></p> 
+		                </div>
+                        <div class="col-lg-4 form-group">
+                            <p class="title">Lead Email ID:</p>
+			                <p class="info"><%= lead.username %></p>
+                        </div>
+                        <div class="col-lg-4 form-group">
+                            <p class="title">Lead Phone Number:</p>
+			                <p class="info"><%= lead.phone_number %></p>
+                        </div>	
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 form-group">
+                            <p class="title">Company Name:</p>
+			                <p class="info"><%= lead.company_name %></p> 
+		                </div>
+                        <div class="col-lg-4 form-group">
+                            <p class="title">Company Email ID:</p>
+			                <p class="info"><%= lead.comapny_emailAddress %></p>
+                        </div>
+                        <div class="col-lg-4 form-group">
+                            <p class="title">Company Website:</p>
+			                <p class="info"><%= lead.company_website %></p>
+                        </div>	
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 form-group">
+                        <p>Assign to User:</p>
+                        <select class="form-control dropdown_search" name="lead[assigned_to]" value="<%= lead.assigned_to %>" disabled required>
+                            <%
+                                var options = users;
+                                for ( var i = 0; i < options.length; i++ )
+                                {
+                                    var selected = ( lead.assigned_to === options[i].username ) ? "selected" : "";
+                                    %><option value="<%=options[ i ] %>" <%=selected %>><%=options[i].username %></option><%
+                                }
+                            %>
+                        </select>
+                     </div>
+                     <div class="col-lg-4 form-group">
+                        <p>Created by User:</p>
+                        <select class="form-control dropdown_search" name="lead[assigned_to]" value="<%= lead.assigned_to %>" disabled required>
+                            <%
+                                var options = users;
+                                for ( var i = 0; i < options.length; i++ )
+                                {
+                                    var selected = ( lead.created_by === options[i].username ) ? "selected" : "";
+                                    %><option value="<%=options[ i ] %>" <%=selected %>><%=options[i].username %></option><%
+                                }
+                            %>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p>Notes:</p>
+                        <textarea name="lead[notes]" value="<%= lead.notes %>" readonly required><%= lead.notes %></textarea>
+                    </div> 	 
+                    <div class="form-group">
+                        <p>Completeion Notes:</p>
+                        <textarea name="lead[completeion_note]" required></textarea>
+                    </div>    
+                    <div>
+                        <p>Lead Success / Failure:</p>
+                        <select class="form-control dropdown_search" name="lead[lead_success]" required>
+                            <%
+                                var options = ["Lead Result","Success","Failure"];
+                               
+                                for ( var i = 0; i < options.length; i++ )
+                                {
+                                    var disabled = ( "Lead Result" === options[i] ) ? "disabled" : "";
+                                    %><option value="<%=options[ i ] %>" <%=disabled %>><%=options[i] %></option><%
+                                }
+                            %>
+                        </select>
+                    </div>
+                    <button class="button zoom" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+
+<%- include ('../partials/footer'); %>
+
+
+<% function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+} %>

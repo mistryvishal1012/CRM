@@ -1,0 +1,56 @@
+<%- include ('../partials/header'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+<title>Products</title>
+<%- include ('../partials/navbar'); %>
+
+  <h1 class="page_title pt-2">Products</h1>
+
+  <%
+  if(currentUser.user_permissions === "Administrator" || currentUser.user_permissions === "Manager"){ %>
+    <div class="util-btn">
+      <a href="products/addCategory" class="button">Create New Category</a>
+      <a href="products/addProduct" class="button">Create New Product</a>
+    </div>
+  
+	  <%
+  }
+%>
+ 
+  <div class="item_table my-1 table-responsive">
+    
+
+      <table class="displayUsers table table-striped" id="myTable" style="width: 100%;">
+          <thead>
+              <tr>
+                <th>Product Name:</th>
+                <th>Category:</th>
+				        <th>Price:</th>
+                <th>Tax:</th>
+                <th>Inventory Quantity:</th>
+                <th>Utils:</th>
+              </tr>
+          </thead>
+
+          <tbody class="tableData">
+			  
+				<% products.forEach(function(product){ %>
+				  	
+						<tr>
+							<td><%= product.product_name %></td>
+							<td><a href="/products/category/<%= product.category._id %>"><%= product.category.categorgy_name %></a></td>
+							<td><%= product.price %></td>
+							<td><%= product.category.tax %></td>
+                            <td><%= product.inventory_quantity %></td>
+                            <td>
+                                <button class="button"><a href="/products/product/<%= product._id %>" style="color: white;">Details</a></button>
+                            </td>
+						</tr>
+
+			  	<% }) %>
+			  
+          </tbody>
+
+        </table>
+  </div>
+
+<%- include ('../partials/footer'); %>

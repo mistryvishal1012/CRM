@@ -1,0 +1,169 @@
+<%- include ('../partials/header'); %>
+<title>Lead Information</title>
+<link rel="stylesheet" type="text/css" href="/styles/information_card.css">
+<%- include ('../partials/navbar'); %>
+
+<h1 class="page_title pt-2">Lead Information</h1>
+<div class="card_content">
+	<div class="block_info">
+		<p class="title">Name:</p>
+		<p class="info"><%= lead.first_name %> <%= lead.middle_name %> <%= lead.last_name %></p> 
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			 <div class="block_info">
+				<p class="title">Email Address:</p>
+				<p class="info"><%= lead.username %></p> 
+			</div> 
+		</div>
+		<div class="col-md-6">
+			<div class="block_info">		 
+				<p class="title">Phone Number:</p>
+				<p class="info"><%= lead.phone_number %></p>
+			</div>
+		</div>
+	</div>			
+	<div class="row">
+		<div class="col-md-6">
+			<div class="block_info">		 
+				<p class="title">Company Name:</p>
+				<p class="info"><%= lead.company_name %></p> 
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="block_info">
+				<p class="title">Company Email Address:</p>
+				<p class="info"><%= lead.company_emailAddress %></p>	
+			</div>		
+		</div>			
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			 <div class="block_info">
+				<p class="title">Company Address: </p>
+				<div class="info">
+					<p><%= lead.company_address.street %></p>
+					<p> <% if (lead.company_address.city) { %>
+						<%= lead.company_address.city %>, 
+						<% } %>							
+						<%= lead.company_address.state %> <%= lead.company_address.zip %></p>
+				</div>
+			</div> 
+		</div>
+		<div class="col-md-6">
+			<div class="block_info">
+				<p class="title">Created:</p>
+				<p class="info"><%= lead.date_added.toDateString() %></p>	
+			</div>		
+		</div>
+		<div class="col-md-6">
+			<div class="block_info">
+				<p class="title">Created By:</p>
+				<p class="info"><%= lead.created_by.username %></p>	
+			</div>		
+		</div>
+		<div class="col-md-6">
+			<div class="block_info">
+				<p class="title">Assigned To:</p>
+				<p class="info"><%= lead.assigned_to.username %></p>	
+			</div>		
+		</div>
+		<div class="col-md-6">
+			<div class="block_info">
+				<p class="title">Notes:</p>
+				<p class="info"><%= lead.notes %></p>	
+			</div>		
+		</div>
+		<div class="col-md-6">
+			<div class="block_info">
+				<p class="title">Approved :</p>
+				<% if (lead.approved === true) { %> <p>Approved</p> <% }%>
+				<% if (lead.approved === false) { %> <p>Unapproved</p> <% }%>	
+			</div>		
+		</div>
+	</div>	
+	<% if (lead.activities.length > 0) { %>
+		<div class="col">
+		<p class="title">Activity :</p>
+		<% lead.activities.forEach(function(activity){ %>	
+			<div class="row">
+				<div class="col-sm">
+					<p><%= activity.activity_type %></p>
+				</div>
+				<div class="col-lg">
+					<p><%= activity.extra_notes %></p>
+				</div>
+				<div class="col-sm">
+					<p><%= activity.activity_date.toDateString() %></p>
+				</div>
+				<div class="col-sm">
+					<% if (activity.active === true) { %> <p>Open</p> <% }%>
+					<% if (activity.active === false) { %> <p>Closed</p> <% }%>
+				</div>
+				<div class="col-sm">
+					<form action="/leads/<%= lead._id %>/activity/<%= activity._id %>" method="GET"><button class="btn btn-secondary zoom m-2">Details</button></form>
+					<% if (lead.approved === true && activity.active === true) { %> 
+						<form action="/leads/<%= lead._id %>/activity/<%= activity._id %>/complete" method="GET"><button class="btn btn-info zoom m-2">Completed</button></form>
+					<% } %> 
+				</div>
+				<div class="col-sm">
+					<% if (activity.active === true) { %> 
+						<form action="/leads/<%= lead._id %>/activity/<%= activity._id %>/edit" method="GET"><button class="btn btn-primary zoom m-2">Edit</button></form>
+					<% } %> 
+					<% if (activity.active === true) { %> 
+						<form action="/leads/<%= lead._id %>/activity/<%= activity._id %>/delete" method="POST"><button class="btn btn-danger zoom m-2">Delete</button></form>
+					<% } %> 
+				</div>
+			</div>
+	  <% }) %>
+	</div>	<% } %>
+		<% if (currentUser.user_permissions === "Administrator" || currentUser.user_permissions === "Manager") { %>		
+			<% if ( (lead.approved === true) && (currentUser.username === lead.created_by.username || currentUser.username === lead.assigned_to.username) && (lead.active === "Pending")) { %>
+					<form action="/leads/<%= lead._id %>/activity/add" method="GET">
+						<button class="btn btn-warning zoom m-2">Add Activivty</button>
+					</form>
+			<% }%>
+			<% if ((currentUser.username === lead.created_by.username || currentUser.username === lead.assigned_to.username) && (lead.active === "Pending")) { %>
+					<form action="/leads/<%= lead._id %>/edit" method="GET">
+						<button class="btn btn-primary zoom m-2">Edit Lead</button>
+					</form>
+			<% }%>
+			<% if ((currentUser.user_permissions === "Administrator") && lead.approved === false && (lead.active === "Pending")) { %>
+					<form action="/leads/<%= lead._id %>/approved?_method=PUT" method="POST">
+						<button class="btn btn-success zoom m-2">Approve Lead</button>	
+					</form>
+			<% }%>
+			<% if (currentUser.user_permissions === "Administrator" && lead.approved === true && (lead.active === "Pending")) { %>
+				<form action="/leads/<%= lead._id %>/disapprove?_method=PUT" method="POST">
+					<button class="btn btn-danger zoom m-2">Disapprove Lead</button>	
+				</form>
+			<% }%>
+			<% if ((lead.approved === true) && (currentUser.username === lead.created_by.username || currentUser.username === lead.assigned_to.username) && (lead.active === "Pending")) { %>
+				<form action="/leads/<%= lead._id %>/compelted" method="GET">
+					<button class="btn btn-info zoom m-2">Lead Completed</button>	
+				</form>
+			<% }%>
+		<% } %>	
+		<% if ((lead.active ===  'false' )) { %>
+			<div class="form-group">
+				<p>Completeion Note:</p>
+				<textarea readonly name="activity[completeion_note ]"><%= lead.completeion_note %></textarea>
+			</div>
+			<div class="form-group">
+				<p>Lead Result:</p>
+				<select class="form-control dropdown_search" name="lead[lead_success]" value="<%= lead.lead_success %>" disabled>
+					<%
+					var options = [ "Success","Failure" ];
+					for ( var i = 0; i < options.length; i++ )
+					{
+						var selected = ( lead.lead_success === options[i] ) ? "selected" : "";
+						%><option value="<%=options[ i ] %>" <%=selected %>><%=options[i] %></option><%
+					}
+			%>
+			</select>
+			</div>
+		<% }%>
+</div>
+
+
+<%- include ('../partials/footer'); %>

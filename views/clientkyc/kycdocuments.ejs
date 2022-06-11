@@ -1,0 +1,42 @@
+<%- include ('../partials/header'); %>
+<title>Client KYC Documenst</title>
+<%- include ('../partials/navbar'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	
+	<div class="m-5">
+        <h2 class="py-2 page_title">Edit Client:
+            <% if (client_info.organization_name) { %>
+            <%= client_info.organization_name %>
+            <% } else { %>
+                <%= client_info.first_name %> <%= client_info.middle_name %> <%= client_info.last_name %>
+            <% } %> 				
+        </h2>
+        <h4 class="py-2 page_title">
+            <%= filename %>
+        </h4>
+        <h6 class="py-2 page_title">
+            <%
+                if((filename != "Client Form") && (filename != "Photograph Of Business Owner")){ %>
+                        Certificate Number : <%= certifictaeNumber %>                                                                                                                                                                      
+                    <%
+                }
+            %>
+        </h6>
+    </div>
+    <div style="margin: 5%;">
+        <%
+                    if( fileType === "pdf" ){
+                        %>
+                        <iframe src="<%= data %>#toolbar=0" width="100%" height="1100px">
+                        <%
+                    }else{
+                        %>
+                           <img src="<%= data %>#toolbar=0" width="100%" height="1100px">
+                        <%
+                    }
+                %>
+    </div>
+
+<%- include ('../partials/footer'); %>

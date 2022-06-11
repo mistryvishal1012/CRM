@@ -1,0 +1,82 @@
+<%- include ('partials/header'); %>
+<title>Dashboard</title>
+<link rel="stylesheet" type="text/css" href="/styles/dashboard.css">
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+<%- include ('partials/navbar'); %>
+
+
+  <h1 class="dashboard page_title pt-2">Dashboard</h1>
+  <div class="col-xl">
+	<% if (currentUser.user_permissions === "Administrator" || currentUser.user_permissions === "Manager") { %> 
+		<div class="card_padding activity item_table my-1" style="padding: 5px; height: 50vh;">            
+			<div class="card_text" style="border: 1px solid black; padding: 5px;">
+				<p class="card-title" style="text-align: center;">Todays Lead Activity</p>
+				<% if (totalActivityLead > 0) { %> 
+						<table class="displayUsers table table-striped" id="myTable" style="width: 100%;">
+							<thead>
+								<tr>
+								  <th>Activity Type:</th>
+								  <th>Lead:</th>
+								  <th>Created By:</th>
+								  <th>Extra Notes:</th>
+								  <th>Utils:</th>
+								</tr>
+							</thead>	
+							<tbody class="tableData">
+							<% todayActivityLead.forEach(function(activity){ %> 
+								<tr>
+									<td><%= activity.activity_type %></td>
+									<td><%= activity.for_lead.first_name %></td>
+									<td><%= activity.created_by.username %></td>
+									<td><%= activity.extra_notes %></td>
+									<td>
+										<button class="button"><a href="/leads/<%= activity.for_lead._id %>/activity/<%= activity._id %>">Details</a></button>
+									</td>
+								</tr>
+							<% }) %>
+						</tbody>
+						</table>
+				<% } %>
+				<% if (totalActivityLead === 0) { %> <p>No Activity For Today</p> <%} %>
+			</div>	    
+		</div>	
+	<% }%>
+	
+  </div>
+
+  <div class="col-xl">
+	<div class="card_padding activity item_table my-1" style="padding: 5px;">            
+		<div class="card_text" style="border: 1px solid black; padding: 5px;">
+			<p class="card-title" style="text-align: center;">Todays Other Activity</p>
+			<% if (totalActivityOther > 0) { %> 
+					<table class="displayUsers table table-striped" id="myTable" style="width: 100%;">
+						<thead>
+							<tr>
+							  <th>Activity Type:</th>
+							  <th>Created By:</th>
+							  <th>Extra Notes:</th>
+							  <th>Utils:</th>
+							</tr>
+						</thead>	
+						<tbody class="tableData">
+						<% todayActivityOther.forEach(function(activity){ %> 
+							<tr>
+								<td><%= activity.activity_type %></td>
+								<td><%= activity.created_by.username %></td>
+								<td><%= activity.extra_notes %></td>
+								<td>
+									<button class="button"><a href="/activity/<%= activity._id %>">Details</a></button>
+								</td>
+							</tr>
+						<% }) %>
+					</tbody>
+					</table>
+			<% } %>
+			<% if (totalActivityOther === 0) { %> <p>No Activity For Today</p> <%} %>
+		</div>	    
+	</div>
+  </div>		
+  
+
+
+<%- include ('partials/footer'); %>

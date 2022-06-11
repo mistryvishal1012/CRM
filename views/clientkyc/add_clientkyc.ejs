@@ -1,0 +1,61 @@
+<%- include ('../partials/header'); %>
+<title>Add Client's KYC Documents</title>
+<%- include ('../partials/navbar'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	
+	<div>
+            <div class="container">
+                <h2 class="py-2 page_title">Add Client:</h2>
+                <form action="/clients" method="POST">
+					<input autocomplete="off" autofocus class="form-control" name="client[client_type]" value="Client" type="text" required style="display: none;">
+					<div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="client[organization_name]" placeholder="Organization Name" type="text" required>
+                    </div>   
+					<div class="row">
+						<div class="col-lg-4 form-group">
+							<input autocomplete="off" autofocus class="form-control" name="client[first_name]" placeholder="First Name" type="text" required>
+						</div>
+						<div class="col-lg-4 form-group">
+							<input autocomplete="off" autofocus class="form-control" name="client[middle_name]" placeholder="Middle Name" type="text" required>
+						</div>
+						<div class="col-lg-4 form-group">
+							<input autocomplete="off" autofocus class="form-control" name="client[last_name]" placeholder="Last Name" type="text" required>
+						</div>
+					</div> 					
+                    <div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="client[email_address]" placeholder="Email Address" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                    </div>
+                    <div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="client[phone_number]" placeholder="Phone Number" type="text" required>
+                    </div> 
+                    <div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="client[street]" placeholder="Street" type="text" required>
+                    </div>    	
+					<div class="row">
+						<div class="col-lg-4 form-group">
+							<select class="form-control dropdown_search" name="client[city]" required>
+								<option value="">City</option><option value="Navsari">Navsari</option><option value="Surat">Surat</option>
+						</select>
+						</div>
+						<div class="col-lg-4 form-group">
+							<select class="form-control dropdown_search" name="client[state]" required>
+									<option value="">State</option><option value="Gujarat">Gujarat</option>
+							</select>
+						</div>
+						<div class="col-lg-4 form-group">
+							<input autocomplete="off" autofocus class="form-control" name="client[zip]" placeholder="Zip" type="text" required>
+						</div>
+					</div>	
+                    <div class="form-group">
+						<p>Client Description:</p>
+                        <textarea name="client[description]" required></textarea>
+                    </div> 					
+                    <button class="button zoom" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+
+<%- include ('../partials/footer'); %>

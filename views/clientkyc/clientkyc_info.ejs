@@ -1,0 +1,225 @@
+<%- include ('../partials/header'); %>
+<title>Client's KYC Information</title>
+<link rel="stylesheet" type="text/css" href="/styles/information_card.css">
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+<%- include ('../partials/navbar'); %>
+
+	<h1 class="page_title pt-5">Client Information</h1>
+	<div class="row px-4">
+		<div class="col-xl-6">
+			<h2 style="padding-left: auto; margin-left: 25%;">Client : <%= client_info.organization_name %></h2>
+			<div class="card_content">
+
+				<div class="row stripe_1 block_info">
+					<div class="col-lg-6">
+						<p class="title">Organization Name:</p>
+					</div>
+					<div class="col-lg-6">
+						<% if (client_info.organization_name) { %>
+							<p class="info"><%= client_info.organization_name %></p> 
+						<% } else { %>
+							<p class="info"><%= client_info.last_name %> <%= client_info.first_name %> <%= client_info.middle_name %></p> 
+						<% } %> 
+					</div>
+				</div>
+				<div class="row stripe_2 block_info">
+					<div class="col-lg-6">
+						<p class="title">Contact Name:</p>
+					</div>
+					<div class="col-lg-6">
+						<p class="info"><%= client_info.first_name %> <%= client_info.middle_name %> <%= client_info.last_name %></p> 
+					</div>
+				</div>
+				<div class="row stripe_1 block_info">
+					<div class="col-lg-6">
+						<p class="title">Email Address:</p>
+					</div>
+					<div class="col-lg-6">
+						<p class="info"><%= client_info.email_address %></p>
+					</div>
+				</div>
+				<div class="row stripe_2 block_info">
+					<div class="col-lg-6">
+						<p class="title">Phone Number:</p>
+					</div>
+					<div class="col-lg-6">
+						<p class="info"><%= client_info.phone_number %></p> 
+					</div>
+				</div>
+				<div class="row stripe_1 block_info">
+					<div class="col-lg-6">
+						<p class="title">Address:</p>
+					</div>
+					<div class="col-lg-6">
+						<p><%= client_info.street %></p>
+						<p><%= client_info.city %>, <%= client_info.state %> <%= client_info.zip %></p>
+					</div>
+				</div>
+				<div class="row stripe_2 block_info">
+					<div class="col-lg-6">
+						<p class="title">Date Added:</p>
+					</div>
+					<div class="col-lg-6">
+						<p class="info"><%= client_info.date_added.toDateString() %></p>	
+						<p class="info"><strong>By User:</strong> 
+							<% if (client_info.created_by) { %>
+								<%= client_info.created_by.username %>
+							<% } else { %>
+								[deleted]
+							<% } %>	
+						</p>
+					</div>
+				</div>
+				<div class="row stripe_1 block_info">
+					<div class="col-lg-6">
+						<p class="title">Is Active:</p>
+					</div>
+					<div class="col-lg-6">
+						<p>
+							<% if (client_info.active) { %>
+								true
+							<% } else { %>
+								false
+							<% } %>
+						</p>
+					</div>
+				</div>
+				<div class="row stripe_2 block_info">
+					<div class="col-lg-6">
+						<p class="title">Description:</p>	
+					</div>
+					<div class="col-lg-6">						
+						<p>
+							<%= client_info.description %>
+						</p>
+					</div>
+				</div>
+				<div class="row pt-3">
+					<div class="col-lg-6">
+						<% if (currentUser.user_permissions === "Manager" || currentUser.user_permissions === "Administrator") { %>
+							<form action="/clientkyc/<%= client_info._id %>/edit" method="GET">
+								<button class="btn btn-primary">Edit Client</button>
+							</form>	
+						<% } %>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-6">
+			<h2 style="padding-left: auto; margin-left: 25%;">Client's KYC </h2>
+			<div class="card_content">
+				<div class="row stripe_1 block_info">
+					<div class="col-lg-6">
+						<p class="title">Client Form:</p>
+					</div>
+					<div class="col-lg-6">
+						<%
+							if (!client_info.KYCLink){ %>
+								<p> - </p>
+								<p> - </p>		
+								<%
+							}else{ %>
+								<p><%= client_info.KYCLink.CFDocumentName %></p>
+								<p><a href="<%=  client_info._id %>/CF" target="_blank">Link</a></p>		
+								<%
+							}
+						%>
+						
+					</div>
+				</div>
+				<div class="row stripe_2 block_info">
+					<div class="col-lg-6">
+						<p class="title">Client's Photograph:</p>
+					</div>
+					<div class="col-lg-6">
+						<%
+							if (!client_info.KYCLink){ %>
+								<p> - </p>
+								<p> - </p>	
+								<%
+							}else{ %>
+								<p><%= client_info.KYCLink.POODocumentName %></p>
+								<p><a href="<%=  client_info._id %>/POO" target="_blank">Link</a></p>		
+								<%
+							}
+						%>
+					</div>
+				</div>
+				<div class="row stripe_1 block_info">
+					<div class="col-lg-6">
+						<p class="title">Proof of Business Identity & Existence:</p>
+					</div>
+					<div class="col-lg-6">
+					<%
+						if (!client_info.KYCLink){ %>
+							<p> - </p>
+							<p> - </p>	
+							<%
+						}else{ %>
+							<p><%= client_info.KYCLink.POBIEDocumentName %></p>
+							<p><a href="<%=  client_info._id %>/POBIE" target="_blank">Link</a></p>		
+							<%
+						}
+					%> 
+					</div>
+				</div>
+				<div class="row stripe_2 block_info">
+					<div class="col-lg-6">
+						<p class="title">Proof of Identity of Business Owners:</p>
+					</div>
+					<div class="col-lg-6">
+						<%
+							if (!client_info.KYCLink){ %>
+								<p> - </p>
+								<p> - </p>		
+								<%
+							}else{ %>
+								<p><%= client_info.KYCLink.POIBODocumentName %></p>
+								<p><a href="<%=  client_info._id %>/POIBO" target="_blank">Link</a></p>		
+								<%
+							}
+						%>
+					</div>
+				</div>
+				<div class="row stripe_1 block_info">
+					<div class="col-lg-6">
+						<p class="title">Proof of Address of Business Owners:</p>
+					</div>
+					<div class="col-lg-6">
+						<%
+							if (!client_info.KYCLink){ %>
+								<p> - </p>
+								<p> - </p>		
+								<%
+							}else{ %>
+								<p><%= client_info.KYCLink.POABODocumentName %></p>
+								<p><a href="<%=  client_info._id %>/POABO" target="_blank">Link</a></p>		
+								<%
+							}
+						%> 
+					</div>
+				</div>
+				<div class="row stripe_2 block_info">
+					<div class="col-lg-6">
+						<p class="title">GST Certificate:</p>
+					</div>
+					<div class="col-lg-6">
+						<%
+							if (!client_info.KYCLink){ %>
+								<p> - </p>
+								<p> - </p>		
+								<%
+							}else{ %>
+								<p><%= client_info.KYCLink.GSTDocumentName %></p>
+								<p><a href="<%=  client_info._id %>/GSTCertificate" target="_blank">Link</a></p>		
+								<%
+							}
+						%> 
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<%- include ('../partials/footer'); %>

@@ -1,0 +1,165 @@
+<%- include ('../partials/header'); %>
+<title>Add Transaction</title>
+<%- include ('../partials/navbar'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	
+	<div>
+            <div class="container">
+                <h2 class="py-2 page_title">Add Transaction:</h2>
+                <form  enctype="multipart/form-data" action="/transactions" method="POST">
+					<div class="row">
+						<div class="col-lg-4">
+							<div class="form-group">
+								<p>Associated Job:</p>
+								<select class="form-control dropdown_search" name="transaction[job]" required>
+									<option value="">Select Job</option>
+									<% jobs.forEach(function(job){ %>
+									  <option value="<%= job._id %>">
+										  <%= job.job_name %>
+									   </option>
+									<% }); %>
+								</select>
+							</div>							
+						</div>
+						<div class="col-lg-4">
+							<div class="form-group">
+								<p>Associated Client:</p>
+								<select class="form-control dropdown_search" name="transaction[client]" required>
+									<option value="">Select Client</option>
+									<% clients.forEach(function(client){ %>
+										<% if (client.active) { %>	
+										<option value="<%= client._id %>">
+											<% if (client.organization_name) { %>
+											<%= client.organization_name %>
+											<% } else { %>
+											<%= client.last_name %>, <%= client.first_name %> <%= client.middle_name %>
+											<% }; %>
+										</option>
+									   <% } %>
+									<% }); %>
+								</select>
+							</div>									
+						</div>
+						<div class="col-lg-4">
+							<div class="form-group">
+								<p>Deposited By User:</p>
+								<select class="form-control dropdown_search" name="transaction[deposited_by_user]" required>
+									<option value="">Select User</option>
+									<% users.forEach(function(user){ %>
+									  <option value="<%= user._id %>"><%= user.username %></option>
+									<% }) %>
+								</select>
+							</div>
+						</div>
+					</div>					
+					
+					<p>Transaction Information:</p>  	
+					<div class="row">
+						
+						<div class="col-lg-4 form-group">
+							<p>Transaction Amount (<span>₹</span>) :</p>
+							
+							<div class="billing">
+								<input autocomplete="off" autofocus class="form-control" name="transaction[transaction_info][amount]"  placeholder="0000.00" type="number" required>
+							</div>
+							<label for="transaction[transaction_info][amount]">Format: 0000.00</label>
+						</div>
+						
+						<div class="col-lg-4">
+							<div class="form-group">
+								<p>Payment Method:</p>
+								<select class="form-control dropdown_search" name="transaction[transaction_info][method]" required>
+									<option value="Cash">Cash</option>
+									<option value="Check">Check</option>
+									<option value="Credit Card">Credit Card</option>
+									<option value="Wire Transfer">Wire Transfer</option>	
+									<option value="Other">Other</option>	
+								</select>
+							</div>							
+						</div>
+						<div class="col-lg-4">
+							<p>Deposit Date:</p>
+							<div class="form-group">
+								<input type="date" class="form-control" name="transaction[transaction_info][date]" required>
+							</div>							
+						</div>
+					</div>	
+					<div class="row">
+						<%
+							if(job_type === "Import"){
+								%>
+									<div class="col-lg-6 form-group">
+										<p>Check/Receipt Number:</p>
+										<input autocomplete="off" autofocus class="form-control" name="transaction[transaction_info][receipt_number]" placeholder="0000" type="text" required>
+									</div>
+								<%
+							}
+						%>
+
+						<div class="col-lg-6 form-group">
+							<p>Name on Transaction:</p>
+							<input autocomplete="off" autofocus class="form-control" name="transaction[transaction_info][associated_name]" placeholder="ex. check/credit card name" type="text" required>
+						</div>
+					</div>	
+					<p>Reciept : </p>
+					<%
+						if(job_type === "Import"){
+							%>
+							<input autocomplete="off" autofocus class="form-control" name="transaction[job_type]" value="Import" type="text" readonly style="display: none;">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" style="background-color: rgba(6, 16, 34, 1); color: white;">Upload</span>
+									  </div>
+									  <div class="custom-file">
+										<input type="file" class="custom-file-input" id="ExportReceipt" name="ExportReceipt" accept="application/pdf">
+										<label class="custom-file-label" for="ExportReceipt">Choose file</label>
+									  </div>
+								</div>
+							<%
+						}else{
+							%>
+							<input autocomplete="off" autofocus class="form-control" name="transaction[job_type]" value="Export" type="text" readonly style="display: none;">
+							<%
+						}
+					%>
+					<p>Billing Address:</p>
+					<div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="transaction[billing_address][street]" placeholder="Street" type="text" required>
+                    </div>    	
+					<div class="row">
+						<div class="col-lg-4 form-group">
+							<input autocomplete="off" autofocus class="form-control" name="transaction[billing_address][city]" placeholder="City" type="text" required>
+						</div>
+						<div class="col-lg-4 form-group">
+							<input autocomplete="off" autofocus class="form-control" name="transaction[billing_address][state]" placeholder="State" type="text" required>
+						</div>
+						<div class="col-lg-4 form-group">
+							<input autocomplete="off" autofocus class="form-control" name="transaction[billing_address][zip]" placeholder="Zip" type="text" required>
+						</div>
+					</div>					
+					
+                    <div class="form-group">
+						<p>Notes:</p>
+                        <textarea name="transaction[notes]"></textarea>
+                    </div> 					
+
+                    <button class="button zoom" type="submit">Submit</button>
+					
+                </form>
+            </div>
+        </div>
+
+<script>
+			$(function() {
+		  $('input[type=file]').change(function(event){
+			  console.log(this.id);
+				var label = $("label[for='"+this.id+"']")
+				console.log(label);
+				var t = $(this).val();
+				var labelText = 'File : ' + t.substr(12, t.length);
+				label[0].innerText = labelText;
+		  })
+		});
+</script>
+<%- include ('../partials/footer'); %>

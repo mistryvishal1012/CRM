@@ -1,0 +1,81 @@
+<%- include ('../partials/header'); %>
+<title>Edit User</title>
+<%- include ('../partials/navbar'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+
+
+	
+	<div>
+            <div class="container">
+                <h2 class="py-2 page_title">Edit User: <%= user.username %></h2>
+                <form action="/users/<%= user._id %>?_method=PUT" method="POST">
+					<div class="row">
+						<div class="col-lg-4 form-group">
+							<input required autocomplete="off" autofocus class="form-control" name="user[first_name]" placeholder="First Name" value="<%= user.first_name %>" type="text" required>
+						</div>
+						<div class="col-lg-4 form-group">
+							<input required autocomplete="off" autofocus class="form-control" name="user[middle_name]" placeholder="Middle Name" value="<%= user.middle_name %>" type="text" required>
+						</div>
+						<div class="col-lg-4 form-group">
+							<input required autocomplete="off" autofocus class="form-control" name="user[last_name]" placeholder="Last Name" value="<%= user.last_name %>" type="text" required>
+						</div>
+					</div>
+                    <div class="form-group">
+                        <input required autocomplete="off" autofocus class="form-control" name="user[username]" placeholder="Username" value="<%= user.username %>" type="text" required>
+                    </div>    					
+                    <div class="form-group">
+                        <input required autocomplete="off" autofocus class="form-control" name="user[email_address]" placeholder="Email Address" value="<%= user.email_address %>" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                    </div>
+                    <div class="form-group">
+                        <input required autocomplete="off" autofocus class="form-control" name="user[phone_number]" placeholder="Phone Number" value="<%= user.phone_number %>" type="tel" required>
+                    </div> 
+                    <div class="form-group">
+                        <input required autocomplete="off" autofocus class="form-control" name="user[street]" placeholder="Street" value="<%= user.street %>" type="text" required>
+                    </div>    	
+					<div class="row">
+						<div class="col-lg-4 form-group">
+							<select class="form-control dropdown_search" name="user[city]" required>
+								<%
+								var options = [ "Navsari","Surat" ];
+								for ( var i = 0; i < options.length; i++ )
+								{
+									var selected = ( user.city === options[i] ) ? "selected" : "";
+									%><option value="<%=options[ i ] %>" <%=selected %>><%=options[i] %></option><%
+								}
+						%>
+							</select>
+						</div>
+						<div class="col-lg-4 form-group">
+							<select class="form-control dropdown_search" name="user[state]" required>
+	
+									<%
+									var options = [ "Gujarat" ];
+									for ( var i = 0; i < options.length; i++ )
+									{
+										var selected = ( user.state === options[i] ) ? "selected" : "";
+										%><option value="<%=options[ i ] %>" <%=selected %>><%=options[i] %></option><%
+									}
+							%>
+							</select>
+						</div>
+						<div class="col-lg-4 form-group">
+							<input required autocomplete="off" autofocus class="form-control" name="user[zip]" placeholder="Zip" value="<%= user.zip %>" type="text" required>
+						</div>
+					</div>		
+
+					<div class="form-group">
+						<p>User Permissions:</p>
+						<select class="form-control" name="user[user_permissions]" required>
+							  <option value="<%= user.user_permissions %>"><%= user.user_permissions %></option>
+							  <option value="Administrator">Administrator</option>
+							  <option value="Manager">Manager</option>
+							  <option value="User">User</option>
+						</select>
+                    </div>
+                    <button class="button zoom" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+
+<%- include ('../partials/footer'); %>

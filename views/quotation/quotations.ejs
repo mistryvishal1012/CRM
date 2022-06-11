@@ -1,0 +1,49 @@
+<%- include ('../partials/header'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+<title>Quotations</title>
+<%- include ('../partials/navbar'); %>
+
+  <h1 class="page_title pt-2">Quotations</h1>
+
+  <div class="item_table my-1 table-responsive">
+    
+
+      <table class="displayUsers table table-striped" id="myTable" style="width: 100%;">
+          <thead>
+              <tr>
+                <th>Quotation ID:</th>
+                <th>Company Name:</th>
+                <th>Assigned Person Name:</th>
+                <th>Assigned Person Email Address</th>
+				<th>Company Email Address</th>
+                <th>Phone Number:</th>
+                <th>City:</th>
+                <th>Utils:</th>
+              </tr>
+          </thead>
+
+          <tbody class="tableData">
+			  
+				<% quotations.forEach(function(quotation){ %>
+				  	
+                    <tr>
+                        <td><%= quotation.quotation_id %></td>
+                        <td><%= quotation.company_name %></td>
+                        <td><%= quotation.first_name %> <%= quotation.middle_name %> <%= quotation.last_name %></td>
+                        <td><%= quotation.username %></td>
+                        <td><%= quotation.comapny_emailAddress %></td>
+                        <td><%= quotation.phone_number %></td>
+                        <td><%= quotation.company_address.city %></td>
+                        <td>
+                            <button class="button"><a href="/quotation/<%= quotation._id %>" style="color: white;">Details</a></button>
+                        </td>
+                    </tr>
+
+			  	<% }) %>
+			  
+          </tbody>
+
+        </table>
+  </div>
+
+<%- include ('../partials/footer'); %>

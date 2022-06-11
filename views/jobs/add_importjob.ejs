@@ -1,0 +1,233 @@
+<%- include ('../partials/header'); %>
+<title>Add Order</title>
+<%- include ('../partials/navbar'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+<link rel="stylesheet" type="text/css" href="/styles/switch.css">
+	
+	<div>
+            <div class="container">
+                <h2 class="py-2 page_title">Add Import Order:</h2>
+                <form action="/jobs" method="POST">
+					<input autocomplete="off" autofocus class="form-control" name="job[job_type]" value="Import" type="text" required style="display: none;">
+					<div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="job[job_name]" placeholder="Order Name" type="text" required>
+                    </div>
+					<p>Order Location:</p>
+					<div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="job[street]" placeholder="Street" type="text" required>
+                    </div>    	
+					<div class="row">
+						<div class="col-lg-4 form-group">
+							<select class="form-control dropdown_search" name="job[city]" required>
+								<option value="">City</option><option value="Navsari">Navsari</option><option value="Surat">Surat</option>
+						</select>
+						</div>
+						<div class="col-lg-4 form-group">
+							<select class="form-control dropdown_search" name="job[state]" required>
+									<option value="">State</option><option value="Gujarat">Gujarat</option>
+							</select>
+						</div>
+						<div class="col-lg-4 form-group">
+							<input autocomplete="off" autofocus class="form-control" name="job[zip]" placeholder="Zip" type="text" required>
+						</div>
+					</div>	
+					
+					<div class="form-group">
+						<p>Associated Client:</p>
+						<select class="form-control dropdown_search" name="job[client]" required>
+							<option value="">Select Client</option>
+							<% clients.forEach(function(client){ %>							 
+								<% if (client.active) { %>	
+									<option value="<%= client._id %>">
+									<% if (client.organization_name) { %>
+									<%= client.organization_name %>
+									<% } else { %>
+									<%= client.last_name %>, <%= client.first_name %> <%= client.middle_name %>
+									<% } %>
+								</option>
+								<% } %>								   
+							<% }); %>
+						</select>
+                    </div>					
+                    <div class="form-group">
+						<input type="date" class="form-control" name="job[start_date]" placeholder="Job Start Date" required>
+                    </div>
+                    <div class="form-group">
+						<input type="date" class="form-control" name="job[end_date]" placeholder="Job End Date" required>
+                    </div>		
+					
+					<div class="row">
+						<div class="col-lg-4 form-group">
+							<h6>₹ Product Price:</h6><input autocomplete="off" autofocus class="form-control" id="billing_price" name="job[billing_price]" placeholder="0000.00" type="number" required>
+							<label for="job[billing_price]" id="for_billing_price">Format: 0000.00</label>
+						</div>
+						<div class="col-lg-4 form-group">
+							<h6>₹ Other Charges: </h6><input autocomplete="off" autofocus class="form-control" id="tax_price" name="job[tax_price]" placeholder="0000.00" type="number" required>
+							<label for="job[tax_price]">Format: 0000.00</label>
+						</div>
+					</div>
+					
+                    <div class="form-group">
+						<p>Order Description:</p>
+                        <textarea name="job[description]" required></textarea>
+                    </div> 		
+					
+					<div>
+                        <label><h4>Products</h4></label>
+                        <label class="switch m-2">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+					<div class="container-fluid" id="selectedproduct"></div>
+					<div class="row m-3 productTable">
+						<label><h4>Products</h4></label>
+						<div class="item_table my-1 table-responsive">
+	
+	
+							<table class="displayUsers table table-striped" id="myTable" style="width: 100%;">
+								<thead>
+									<tr>
+									  <th>Product Name:</th>
+									  <th>Category:</th>
+									  <th>Price:</th>
+									  <th>Tax:</th>
+									  <th>Utils:</th>
+									</tr>
+								</thead>
+					  
+								<tbody class="tableData">
+									
+									  <% products.forEach(function(product){ %>
+											
+											  <tr>
+												  <td><%= product.product_name %></td>
+												  <td><%= product.category.categorgy_name %></td>
+												  <td><%= product.price %></td>
+												  <td><%= product.category.tax %></td>
+												  <td>
+													  <button class="button AddButton"  
+													  data-price="<%= product.price %>" data-tax="<%= product.category.tax %>" data-category="<%= product.category.categorgy_name %>" id="AddProduct" 
+														data-name="<%= product.product_name %>" 
+														data-productid="<%= product._id %>" onclick="event.preventDefault();">Add</button>
+												  </td>
+											  </tr>
+					  
+										<% }) %>
+									
+								</tbody>
+					  
+							  </table>
+						</div>
+					</div>
+				
+
+                <button class="button zoom" type="submit">Submit</button>
+                </form>
+			</div>
+        </div>
+
+		<script>
+
+			$('.productTable').hide();
+			 $(document).ready(function(){
+				 var products = new Map();
+				 var productsQuantity = new Map();
+				 $(document).on('change','#productQuantity',function(){
+					 console.log(products);
+					 var product = products.get(this.dataset.productid);
+					 var quantity = this.value;
+					 productsQuantity.set(`${this.dataset.productid}`,quantity);
+					 console.log("Remove Button",$('#RemoveButton').find(`[data-productid='${this.dataset.productid}']`))
+				});
+				$(document).on('click','#RemoveButton',function(){
+						var productId = this.dataset.productid;
+						console.log("Remove Button Clicked",this.dataset);
+						var product = products.get(productId);
+						var quantity = productsQuantity.get(`${productId}`)
+						console.log(products)
+						products.delete(`${productId}`);
+						productsQuantity.delete(`${productId}`);
+						if(products.size === 0){
+							$("#productHeading")[0].remove()
+						}
+						$(`#Product${productId}`)[0].remove();
+					});
+				 $('input[type="checkbox"]').click(function(){
+					 var productsTable = $('.productTable');
+					 if($(this).is(":checked")){
+						 $('.productTable').show(1000);
+					 }
+					 else if($(this).is(":not(:checked)")){
+						 $('.productTable').hide(1000);
+					 }
+				 });
+				 $(".AddButton").click(function(event) {
+					 console.log("Event",event.target.dataset);
+					 var addButton = event.target;
+					 console.log("Button",addButton);
+					 var productID = addButton.dataset.productid
+					 var product = {
+						 'name' : addButton.dataset.name,
+						 'price' : addButton.dataset.price,
+						 'tax' : addButton.dataset.tax,
+						 'category' : addButton.dataset.category
+					 }
+					 var heading = `<div class="row" id="productHeading">
+									 <div class="col form-group">
+										 <label><h6>Selected Product Name:</h6></label>
+									 </div>
+									 <div class="col form-group">
+										 <label><h6>Selected Product Quantity:</h6></label>
+									 </div>
+									 <div class="col form-group">
+										 <label><h6>Product Category:</h6></label>
+									 </div>
+									 <div class="col form-group">
+										 <label><h6>Product Price(per Quantity):</h6></label>
+									 </div>
+									 <div class="col form-group">
+										 <label><h6>Product Tax:</h6></label>
+									 </div>
+									 <div class="col form-group">
+										 <label><h6>Utils:</h6></label>
+									 </div>
+							 </div> `;
+					 if(!products.has(`${productID}`)){
+						 products.set(`${productID}`,product)
+						 var productElement = `<div class="row" id="Product${productID}">
+								 <input autocomplete="off" autofocus class="form-control" name="job[selectedproduct][${products.size}][_id]" value="${productID}"  placeholder="Product Name" type="text" readonly required style="display:none">
+								 <div class="col form-group">
+									 <input autocomplete="off" autofocus class="form-control" name="job[selectedproduct][${products.size}][name]" value="${product.name}"  placeholder="Product Name" type="text" readonly required>
+								 </div>
+								 <div class="col form-group">
+									 <input autocomplete="off" autofocus class="form-control" name="job[selectedproduct][${products.size}][quantity]" id="productQuantity" data-productID="${productID}" placeholder="Product Quantity" type="number" min="1" required>
+								 </div>
+								 <div class="col form-group">
+									 <input autocomplete="off" autofocus class="form-control"  value="${product.category}" placeholder="Product Quantity" type="text" min="1" readonly required>
+								 </div>
+								 <div class="col form-group">
+									 <input autocomplete="off" autofocus class="form-control"  value="${product.price}" placeholder="Product Quantity" type="number" min="1" readonly required>
+								 </div>
+								 <div class="col form-group">
+									 <input autocomplete="off" autofocus class="form-control"  value="${product.tax}" placeholder="Product Quantity" type="number" min="1" readonly required>
+								 </div>
+								 <div class="col form-group">
+									<button id="RemoveButton" onclick="event.preventDefault();" data-price="${product.price}" data-tax="${product.tax}"  data-productid="${productID}" class="button">Remove</button>
+								</div>
+							 </div> `;
+					 var productsDivValue = $("#selectedproduct")
+					 productsDivValue.value = products
+					 console.log(products.size);
+					 if(products.size  === 1){
+						 productsDivValue.append(heading);
+					 }
+					 productsDivValue.append(productElement)
+					 }
+				 });
+		   });
+		 
+		   
+</script>
+<%- include ('../partials/footer'); %>

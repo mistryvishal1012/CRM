@@ -1,0 +1,49 @@
+<%- include ('../partials/header'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+<title>Activitys</title>
+<%- include ('../partials/navbar'); %>
+
+
+  <h1 class="page_title pt-2">Activitys</h1>
+
+  <div class="util-btn">
+    <a href="/activity/add" class="button">Create New Activity</a>
+  </div>
+
+  <div class="item_table my-1 table-responsive">
+    
+    <table class="displayUsers table table-striped" id="myTable" style="width: 100%;">
+        <thead>
+            <tr>
+              <th>Activity Type:</th>
+              <th>Created By:</th>
+              <th>Extra Notes:</th>
+              <th>Completed</th>
+              <th>Activity Date</th>
+              <th>Utils:</th>
+            </tr>
+        </thead>	
+        <tbody class="tableData">
+            <% if (activityGET.length > 0) { %>
+                <% activityGET.forEach(function(activity){ %> 
+                    <tr>
+                        <td><%= activity.activity_type %></td>
+                        <td><%= activity.created_by.username %></td>
+                        <td><%= activity.extra_notes %></td>
+                        <td>
+                            <% if (activity.active === true) { %> No <% } %>
+                            <% if (activity.active === false) { %> Yes <% } %>
+                        </td>
+                        <td><%= activity.activity_date.toDateString() %></td>
+                        <td>
+                            <button class="button"><a href="/activity/<%= activity._id %>" style="text-decoration: none; color: white;">Details</a></button>
+                        </td>
+                    </tr>
+                <% }) %>
+            <% } %>
+    </tbody>
+    </table>
+  </div>
+
+
+<%- include ('../partials/footer'); %>

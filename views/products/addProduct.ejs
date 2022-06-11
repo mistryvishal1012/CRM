@@ -1,0 +1,45 @@
+<%- include ('../partials/header'); %>
+<title>Add Product</title>
+<%- include ('../partials/navbar'); %>
+<link rel="stylesheet" type="text/css" href="/styles/utils.css">
+
+
+    <div class="container">
+      <h2 class="py-2 page_title">Add Product:</h2>
+      <form action="/products/addProduct" method="POST">
+        <div class="form-group">
+          <label><h6>Product Name:</h6></label>
+          <input autocomplete="off" autofocus class="form-control" name="product[product_name]" placeholder="Product Name" type="text" required>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 form-group">
+                <p>Product Description:</p>
+            </div>
+            <div class="col-lg-4 form-group">
+                <input autocomplete="off" autofocus class="form-control" name="product[product_description][manufacturer]" placeholder="Product Manufacturer" type="text" required>
+            </div>
+            <div class="col-lg-4 form-group">
+                <input autocomplete="off" autofocus class="form-control" name="product[product_description][release_date]" placeholder="Product Release Date" type="text" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <p>Category :</p>
+			<select class="form-control dropdown_search" name="product[category]" required>
+				<% categorys.forEach(function(category){ %>
+				  <option value="<%= category._id %>"><%= category.categorgy_name %></option>
+				<% }) %>
+			</select>
+        </div>
+        <div class="form-group">
+            <label><h6>Product Price:</h6></label>
+            <input autocomplete="off" autofocus class="form-control" name="product[price]" placeholder="Price" type="number" required>
+        </div>
+        <button class="button zoom my-3" type="submit">Submit</button>
+      </form>
+      </div>
+		
+</div>
+
+
+
+<%- include ('../partials/footer'); %>

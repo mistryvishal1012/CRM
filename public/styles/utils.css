@@ -1,0 +1,29 @@
+.util-btn{
+    display: flex;
+    justify-content: right;
+}
+
+.button {
+    font-size: 1rem;
+    color: white;
+    background-color:rgba(6, 16, 34, 1);
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: 10px;
+    display: flex;
+    text-decoration: none;
+}
+
+.item_table{
+    padding: 1%;
+}
+
+.dataTables_filter input,
+.dataTables_filter label,
+.dataTables_length label,.dataTables_lenght select{
+    font-size: 1rem;
+}
+
+a:link{
+    text-decoration: none;
+}
