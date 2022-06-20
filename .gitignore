@@ -1,6 +1,6 @@
 transporter.js
 package-lock.json
 node_modules
-/Documents
-/Invoice
-/exportReceipt
+/Public/Documents
+/Public/Invoice
+/Public/exportReceipt
